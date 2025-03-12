@@ -243,11 +243,13 @@ class Pawn(Piece):
             direction(int): direction of pawns movement """
         Piece.__init__(self, img, row, col, side, board)
 
-        if self.row == 1:
+        self.direction = {'w': 1, 'b': -1}[self.side]
+        """
+        if self.side == 'w':
             self.direction = 1
-        if self.row == 6:
+        if self.row == 'b':
             self.direction = -1
-
+"""
     def __str__(self):
         """ 'Magic' method , represents piece on field
         Return:
@@ -267,21 +269,18 @@ class Pawn(Piece):
 
         if PAWN_MOVES in args or not args:
 
-            # check for 1 step forward
             r1 = self.row + self.direction
             c = self.col
             if self.is_vailid_pos(r1, c):
                 if self.board.get_figure(r1, c) is None:
                     result.append((r1, c))
 
-            # check for 2 steps forward
             if self.row == 1 or self.row == 6:
                 r2 = self.row + 2 * self.direction
                 if self.is_vailid_pos(r2, c):
                     if self.board.get_figure(r1, c) is None and self.board.get_figure(r2, c) is None:
                         result.append((r2, c))
 
-        # check attack position
         if PAWN_TAKES in args or not args:
             offsets = (-1, 1)
             r1 = self.row + self.direction
